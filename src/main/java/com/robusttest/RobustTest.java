@@ -1,5 +1,5 @@
 package com.robusttest;
 
 public interface RobustTest {
-    void run();
+    void run(RobustTestResult robustTestResult);
 }

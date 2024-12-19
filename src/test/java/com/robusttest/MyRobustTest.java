@@ -7,19 +7,46 @@ import org.junit.jupiter.api.Test;
 
 public class MyRobustTest {
 
-    @Test
-    public void myRobustTest() {
-        RobustTest test = new RobustTestCase("My Robust Test");
+//    @Test
+//    public void RobustTest() {
+//        RobustTest test = new RobustTestCase("My Robust Test");
+//        RobustTestResult result = new RobustTestResult();
+//
+//        assertEquals("My Robust Test", ((RobustTestCase) test).getName());
+//
+//        assertThrows(UnsupportedOperationException.class, () -> test.run(result));
+//    }
+//
+//    @Test
+//    public void RobustTestRun() {
+//        RobustTest test = new RobustTestCase("My Robust Test");
+//        RobustTestResult result = new RobustTestResult();
+//
+//        Exception ex = assertThrows(UnsupportedOperationException.class, () -> test.run(result));
+//        assertEquals("Unimplemented method 'runTest'", ex.getMessage());
+//    }
 
-        assertEquals("My Robust Test", ((RobustTestCase) test).getName());
-        
-        assertThrows(UnsupportedOperationException.class, () -> test.run());
+    @Test
+    public void RobustTestResult() {
+        RobustTest test = new RobustTestCase("My Robust Test");
+        RobustTestResult result = new RobustTestResult();
+
+        test.run(result);
+
+        assertEquals(1, result.getCount());
+        assertEquals("My Robust Test", result.getTestResultPair(0).getTest().getName());
+        assertEquals(UnsupportedOperationException.class, result.getTestResultPair(0).getResult().getClass());
     }
 
     @Test
-    public void myRobustTestRun() {
-        RobustTest test = new RobustTestCase("My Robust Test");
-        Exception ex = assertThrows(UnsupportedOperationException.class, () -> test.run());
-        assertEquals("Unimplemented method 'runTest'", ex.getMessage());
+    public void NormalTestCase() {
+        RobustTest test = new NormalTestCase("My Normal Test");
+        RobustTestResult result = new RobustTestResult();
+
+        test.run(result);
+
+        assertEquals(1, result.getCount());
+        assertEquals("My Normal Test", result.getTestResultPair(0).getTest().getName());
+        assertEquals(null, result.getTestResultPair(0).getResult());
     }
 }

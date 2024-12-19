@@ -12,9 +12,15 @@ public class RobustTestCase implements RobustTest {
     }
 
     @Override
-    public final void run() {
+    public final void run(RobustTestResult robustTestResult) {
+        robustTestResult.startTest();
         setUp();
-        runTest();
+        try {
+            runTest();
+            robustTestResult.addSuccess(this);
+        } catch (Throwable e) {
+            robustTestResult.addFailure(this, e);
+        }
         tearDown();
     }
 
