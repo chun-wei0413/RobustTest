@@ -9,4 +9,12 @@ public class NormalTestCase extends RobustTestCase {
     protected void runTest() {
         //do nothing
     }
+
+    public void test1() {
+        // success
+    }
+
+    public void test2() {
+        throw new RuntimeException("Test2 Failed");
+    }
 }

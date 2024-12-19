@@ -40,13 +40,30 @@ public class MyRobustTest {
 
     @Test
     public void NormalTestCase() {
-        RobustTest test = new NormalTestCase("My Normal Test");
-        RobustTestResult result = new RobustTestResult();
+        RobustTest test = new NormalTestCase("Test1") {
+            @Override
+            protected void runTest() {
+                test1();
+            }
+        };
 
+        RobustTestResult result = new RobustTestResult();
         test.run(result);
 
         assertEquals(1, result.getCount());
-        assertEquals("My Normal Test", result.getTestResultPair(0).getTest().getName());
-        assertEquals(null, result.getTestResultPair(0).getResult());
+        assertEquals("Test1", result.getTestResultPair(0).getTest().getName());
+        assertEquals(null , result.getTestResultPair(0).getResult());
+
+        test = new NormalTestCase("Test2") {
+            @Override
+            protected void runTest() {
+                test2();
+            }
+        };
+
+        test.run(result);
+        assertEquals(2, result.getCount());
+        assertEquals("Test2", result.getTestResultPair(1).getTest().getName());
+        assertEquals(RuntimeException.class, result.getTestResultPair(1).getResult().getClass());
     }
 }
