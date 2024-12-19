@@ -11,7 +11,20 @@ public class RobustTestCase implements RobustTest {
         return name;
     }
 
-    public void run() {
-        throw new UnsupportedOperationException("Not implemented yet");
+    @Override
+    public final void run() {
+        setUp();
+        runTest();
+        tearDown();
+    }
+
+    protected void setUp() {
+    }
+
+    protected void runTest() {
+        throw new UnsupportedOperationException("Unimplemented method 'runTest'");
+    }
+
+    protected void tearDown() {
     }
 }
