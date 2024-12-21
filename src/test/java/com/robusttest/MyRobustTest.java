@@ -83,4 +83,40 @@ public class MyRobustTest {
         assertEquals("test2", result.getTestResultPair(1).getTest().getName());
         assertEquals(RuntimeException.class, result.getTestResultPair(1).getResult().getClass());
     }
+
+    @Test
+    public void testSuite() {
+        RobustTestSuite suite = new RobustTestSuite();
+        suite.addTest(new SampleTestCase("test1"));
+        suite.addTest(new SampleTestCase("test2"));
+
+        RobustTestResult result = new RobustTestResult();
+        suite.run(result);
+
+        assertEquals(2, result.getCount());
+        assertEquals("test1", result.getTestResultPair(0).getTest().getName());
+        assertEquals(null, result.getTestResultPair(0).getResult());
+        assertEquals("test2", result.getTestResultPair(1).getTest().getName());
+        assertEquals(RuntimeException.class, result.getTestResultPair(1).getResult().getClass());
+    }
+
+    @Test
+    public void testSuiteAddTestCase() {
+        RobustTestSuite suite = new RobustTestSuite();
+        suite.addTestCase(SampleTestCase.class);
+        suite.addTestCase(SampleTestCase2.class);
+
+        RobustTestResult result = new RobustTestResult();
+        suite.run(result);
+
+        assertEquals(4, result.getCount());
+        assertEquals("test1", result.getTestResultPair(0).getTest().getName());
+        assertEquals(null, result.getTestResultPair(0).getResult());
+        assertEquals("test2", result.getTestResultPair(1).getTest().getName());
+        assertEquals(RuntimeException.class, result.getTestResultPair(1).getResult().getClass());
+        assertEquals("test3", result.getTestResultPair(2).getTest().getName());
+        assertEquals(null, result.getTestResultPair(2).getResult());
+        assertEquals("test4", result.getTestResultPair(3).getTest().getName());
+        assertEquals(RuntimeException.class, result.getTestResultPair(3).getResult().getClass());
+    }
 }
