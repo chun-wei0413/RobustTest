@@ -1,5 +1,8 @@
 package com.robusttest;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 public class RobustTestCase implements RobustTest {
     String name;
 
@@ -28,7 +31,20 @@ public class RobustTestCase implements RobustTest {
     }
 
     protected void runTest() {
-        throw new UnsupportedOperationException("Unimplemented method 'runTest'");
+        Method runMethod = null;
+        // Use Java Reflection to find the method with the given name
+        try{
+            runMethod = this.getClass().getDeclaredMethod(this.name);
+        } catch (NoSuchMethodException e) {
+            throw new UnsupportedOperationException("Unimplemented method 'runTest'");
+        }
+        // and invoke it
+        try {
+            runMethod.invoke(this);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     protected void tearDown() {

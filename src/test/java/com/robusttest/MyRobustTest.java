@@ -39,8 +39,8 @@ public class MyRobustTest {
     }
 
     @Test
-    public void NormalTestCase() {
-        RobustTest test = new NormalTestCase("Test1") {
+    public void runAnonymousAdapterTestCase() {
+        RobustTest test = new SampleTestCase("Test1") {
             @Override
             protected void runTest() {
                 test1();
@@ -54,7 +54,7 @@ public class MyRobustTest {
         assertEquals("Test1", result.getTestResultPair(0).getTest().getName());
         assertEquals(null , result.getTestResultPair(0).getResult());
 
-        test = new NormalTestCase("Test2") {
+        test = new SampleTestCase("Test2") {
             @Override
             protected void runTest() {
                 test2();
@@ -64,6 +64,23 @@ public class MyRobustTest {
         test.run(result);
         assertEquals(2, result.getCount());
         assertEquals("Test2", result.getTestResultPair(1).getTest().getName());
+        assertEquals(RuntimeException.class, result.getTestResultPair(1).getResult().getClass());
+    }
+
+    @Test
+    public void runPluggableSelectorTestCase() {
+        RobustTestResult result = new RobustTestResult();
+
+        RobustTest test = new SampleTestCase("test1");
+        test.run(result);
+
+        RobustTest test2 = new SampleTestCase("test2");
+        test2.run(result);
+
+        assertEquals(2, result.getCount());
+        assertEquals("test1", result.getTestResultPair(0).getTest().getName());
+        assertEquals(null, result.getTestResultPair(0).getResult());
+        assertEquals("test2", result.getTestResultPair(1).getTest().getName());
         assertEquals(RuntimeException.class, result.getTestResultPair(1).getResult().getClass());
     }
 }
